@@ -3,10 +3,7 @@
     <name>Plugin display name here</name>
     <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
 
-    <description><![CDATA[
-    Enter short description for your plugin here.<br>
-    <em>most HTML tags may be used</em>
-    ]]></description>
+    <description></description>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
@@ -14,11 +11,23 @@
     <depends>com.intellij.modules.lang</depends>
     -->
 
+    <depends>com.intellij.modules.platform</depends>
+    <depends>Git4Idea</depends>
+
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
+        <postStartupActivity
+                implementation="PluginStartupActivity" />
     </extensions>
 
-    <actions>
-        <!-- Add your actions here -->
-    </actions>
+    <!--<actions>-->
+        <!--<group id="MyPlugin.TopMenu"-->
+               <!--text="_MyPlugin"-->
+               <!--description="MyPlugin Toolbar Menu">-->
+            <!--<add-to-group group-id="MainMenu" anchor="last"/>-->
+            <!--<action id="MyAction"-->
+                    <!--class="actions.MyAction"-->
+                    <!--text="_MyAction"-->
+                    <!--description="MyAction"/>-->
+        <!--</group>-->
+    <!--</actions>-->
 </idea-plugin>

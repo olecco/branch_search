@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<conversion>
+  <applied-converters>
+    <converter id="android-module-to-java-module" />
+    <converter id="android-proguard-options" />
+    <converter id="android-sdk-library" />
+    <converter id="groovy-modules-to-facets" />
+    <converter id="groovy-script-run-configurations" />
+    <converter id="junit-to-android-junit-configurations" />
+    <converter id="kotlin-non-jvm-source-roots" />
+  </applied-converters>
+  <project-files>
+    <file path="C:\dev\bitbucket\mobtr\.idea\encodings.xml" timestamp="1562586587951" />
+    <file path="C:\dev\bitbucket\mobtr\.idea\gradle.xml" timestamp="1562586589320" />
+    <file path="C:\dev\bitbucket\mobtr\.idea\misc.xml" timestamp="1562586587939" />
+    <file path="C:\dev\bitbucket\mobtr\.idea\mobtr.iml" timestamp="1562600190832" />
+    <file path="C:\dev\bitbucket\mobtr\.idea\modules.xml" timestamp="1562600190856" />
+    <file path="C:\dev\bitbucket\mobtr\.idea\vcs.xml" timestamp="1562590632967" />
+    <file path="C:\dev\bitbucket\mobtr\.idea\workspace.xml" timestamp="1562934722284" />
+  </project-files>
+</conversion>
+
