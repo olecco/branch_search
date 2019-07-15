@@ -41,7 +41,7 @@ class BranchPopup(private val project: Project): BranchView {
             .setShowBorder(true)
             .createPopup()
 
-        popup.setSize(Dimension(700, 500))
+        popup.setSize(Dimension(700, 100))
     }
 
     override fun show(project: Project) {
@@ -61,6 +61,12 @@ class BranchPopup(private val project: Project): BranchView {
 
     override fun setLoading(isLoading: Boolean) {
         branchListView.setPaintBusy(isLoading)
+    }
+
+    private fun scrollToSelected() {
+        val index = branchListView.selectedIndex
+        val cellBounds = branchListView.getCellBounds(index, index)
+        branchListView.scrollRectToVisible(cellBounds)
     }
 
     private fun createPopupUI(): JPanel {
@@ -108,6 +114,7 @@ class BranchPopup(private val project: Project): BranchView {
             {
                 if (!branchListView.isEmpty) {
                     branchListView.selectedIndex = presenter!!.getNextSelectedIndex(branchListView.selectedIndex, true)
+                    scrollToSelected()
                 }
             },
             KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0),
@@ -116,6 +123,7 @@ class BranchPopup(private val project: Project): BranchView {
             {
                 if (!branchListView.isEmpty) {
                     branchListView.selectedIndex = presenter!!.getNextSelectedIndex(branchListView.selectedIndex, false)
+                    scrollToSelected()
                 }
             },
             KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0),
