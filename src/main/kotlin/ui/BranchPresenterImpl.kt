@@ -2,6 +2,7 @@ package ui
 
 import checkoutLocalBranch
 import checkoutRemoteBranch
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import fetchAll
@@ -17,27 +18,28 @@ import ui.contracts.BranchView
 
 class BranchPresenterImpl(override var view: BranchView, private val project: Project) : BranchPresenter {
 
+    private var allBranches: MutableList<GitBranch>
     private var filteredBranches: MutableList<GitBranch> = mutableListOf()
     private var filterString: String = ""
 
     init {
-        filteredBranches.addAll(getAllBranches(project))
         view.presenter = this
-        view.setBranchesData(filteredBranches)
+        allBranches = ArrayList(getAllBranches(project))
+        setFilterString("")
     }
 
     override fun setFilterString(filterString: String) {
         this.filterString = filterString
-        val branches: List<GitBranch> = getAllBranches(project)
+        //val branches: List<GitBranch> = getAllBranches(project)
         filteredBranches.clear()
         if (!filterString.isNullOrEmpty()) {
-            for (branch in branches) {
+            for (branch in allBranches) {
                 if (branch.name.contains(filterString, true)) {
                     filteredBranches.add(branch)
                 }
             }
         } else {
-            filteredBranches.addAll(branches)
+            filteredBranches.addAll(allBranches)
         }
         view.setBranchesData(filteredBranches)
     }
@@ -62,9 +64,9 @@ class BranchPresenterImpl(override var view: BranchView, private val project: Pr
 
     override fun getNextSelectedIndex(currentSelectedIndex: Int, isDown: Boolean): Int {
         return if (isDown) {
-            if (currentSelectedIndex < filteredBranches.size - 1) { currentSelectedIndex + 1 } else { 0 }
+            if (currentSelectedIndex < filteredBranches.size - 1) { currentSelectedIndex + 1 } else { currentSelectedIndex }
         } else {
-            if (currentSelectedIndex > 0) { currentSelectedIndex - 1 } else { filteredBranches.size - 1 }
+            if (currentSelectedIndex > 0) { currentSelectedIndex - 1 } else { currentSelectedIndex }
         }
     }
 
@@ -75,9 +77,12 @@ class BranchPresenterImpl(override var view: BranchView, private val project: Pr
         GlobalScope.launch(Dispatchers.IO) {
 
             fetchAll(project)
+            allBranches = ArrayList(getAllBranches(project))
 
-            view.setLoading(false)
-            setFilterString(filterString)
+            ApplicationManager.getApplication().invokeLater {
+                view.setLoading(false)
+                setFilterString(filterString)
+            }
 
         }
     }

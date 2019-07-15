@@ -1,18 +1,14 @@
-import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.project.Project
 import git4idea.GitBranch
-import git4idea.branch.GitBranchUtil
-import git4idea.branch.GitBranchesCollection
-import git4idea.repo.GitRepositoryManager
-import git4idea.branch.GitBrancher
-import com.sun.javafx.scene.CameraHelper.project
-import git4idea.GitLocalBranch
 import git4idea.GitRemoteBranch
-import git4idea.commands.Git
-import git4idea.fetch.GitFetchResult
+import git4idea.branch.GitBrancher
+import git4idea.branch.GitBranchesCollection
 import git4idea.fetch.GitFetchSupport
+import git4idea.repo.GitRemote
 import git4idea.repo.GitRepository
+import git4idea.repo.GitRepositoryManager
 import git4idea.validators.GitNewBranchNameValidator
+import java.util.*
 
 
 fun getAllBranches(project: Project): List<GitBranch> {
@@ -24,14 +20,16 @@ fun getAllBranches(project: Project): List<GitBranch> {
     for (repository in gitRepositories) {
 
         val branches: GitBranchesCollection = repository.branches
+        val comparator: Comparator<GitBranch> = Comparator{ b1, b2 -> b1.name.compareTo(b2.name, true) }
 
-        for (branch in branches.localBranches) {
-            result.add(branch)
-        }
+        val localBranchesList = ArrayList<GitBranch>(branches.localBranches)
+        //localBranchesList.sortedWith(comparator)
 
-        for (branch in branches.remoteBranches) {
-            result.add(branch)
-        }
+        val remoteBranchesList = ArrayList<GitBranch>(branches.remoteBranches)
+        //remoteBranchesList.sortedWith(comparator)
+
+        result.addAll(localBranchesList.sortedWith(comparator))
+        result.addAll(remoteBranchesList.sortedWith(comparator))
     }
 
     return result
@@ -57,5 +55,11 @@ fun getNewBranchNameValidator(project: Project): GitNewBranchNameValidator {
 
 fun fetchAll(project: Project) {
     val gitRepositoryManager = GitRepositoryManager.getInstance(project)
-    GitFetchSupport.fetchSupport(project).fetch(gitRepositoryManager.repositories)
+    val gitFetchSupport: GitFetchSupport = GitFetchSupport.fetchSupport(project)
+    for (repository: GitRepository in gitRepositoryManager.repositories) {
+        val gitRemote: GitRemote? = gitFetchSupport.getDefaultRemoteToFetch(repository)
+        if (gitRemote != null) {
+            gitFetchSupport.fetch(repository, gitRemote)
+        }
+    }
 }

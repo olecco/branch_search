@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.olecco.idea.plugin.branch-search</id>
-    <name>Plugin display name here</name>
-    <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+    <name>Git Branch Search</name>
+    <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">olecco</vendor>
 
     <description></description>
 
