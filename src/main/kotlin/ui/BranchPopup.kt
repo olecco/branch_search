@@ -41,7 +41,7 @@ class BranchPopup(private val project: Project): BranchView {
             .setShowBorder(true)
             .createPopup()
 
-        popup.setSize(Dimension(700, 100))
+        popup.setSize(Dimension(700, 500))
     }
 
     override fun show(project: Project) {
