@@ -22,7 +22,7 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 intellij {
-    version '2018.3'
+    version '2019.2'
     plugins = [ 'git4idea' ]
 }
 patchPluginXml {
